@@ -3,3 +3,4 @@ apt-get install cups
 apt-get install python-cups
 apt-get install picamera
 apt-get install defoma
+apt-get install xrdp
