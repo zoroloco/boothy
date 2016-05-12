@@ -43,8 +43,6 @@ with picamera.PiCamera() as camera:
             index++
             time.sleep(1)
 
-        camera.stop_preview()
-
         #printPic()
     finally:
         camera.close()
