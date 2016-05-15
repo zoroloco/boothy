@@ -19,11 +19,12 @@ def printPic():
 #merges the three images
 def convertMergeImages():
     #create a dummy blank
-    subprocess.call(["convert -size 640x480 xc:white "+filePath+"3.jpg"])
+    #subprocess.call(["convert -size 640x480 xc:white "+filePath+"3.jpg"])
     #now check in a loop if the 3.jpg file exists. if so, then
     sleep(2)
     #now merge all the images
-    subprocess.call(["montage " filePath+"0.jpg" filePath+"1.jpg" filePath+"2.jpg" filePath+"3.jpg" -geometry +2+2 /mnt/share/boothy/love_montage.jpg"])
+    #subprocess.call(["montage " filePath+"0.jpg" filePath+"1.jpg" filePath+"2.jpg" filePath+"3.jpg" -geometry +2+2 /mnt/share/boothy/love_montage.jpg"])
+    subprocess.call(["/usr/local/src/boothy/merge.sh"])
 
 #adds the text to final image.
 def convertAddText():
@@ -32,7 +33,7 @@ def convertAddText():
                 "-pointsize", "40",
                 "-fill", "HotPink2",
                 "-draw" "'text 90,660 \"Nadine & Kenneth - July 23rd, 2016 - Dreams Tulum - Mexico\" '",
-                "love.jpg", "love_final.jpg"])
+                "/mnt/share/boothy/love_montage.jpg", "/mnt/share/boothy/love_final.jpg"])
 
 def captureImage(imageName):
     with picamera.PiCamera() as camera:
