@@ -6,6 +6,10 @@ import subprocess
 from PIL import Image
 from time import sleep
 
+filePath = "/mnt/share/boothy/"
+IMAGE_WIDTH  = 640
+IMAGE_HEIGHT = 480
+
 def printPic():
     conn = cups.Connection()
     printers = conn.getPrinters ()
@@ -33,15 +37,15 @@ def captureImage(imageName):
         try:
             camera.start_preview()
             #save image
-            camera.capture(imageName, resize=(320, 240))
+            camera.capture(imageName, resize=(IMG_WIDTH, IMG_HEIGHT))
         finally:
             camera.close()
 
-captureImage("0.jpg")
+captureImage(filePath+"0.jpg")
 sleep(1)
-captureImage("1.jpg")
+captureImage(filePath+"1.jpg")
 sleep(1)
-captureImage("2.jpg")
+captureImage(filePath+"2.jpg")
 sleep(1)
 #convertMergeImages()
 #convertText()
