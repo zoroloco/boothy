@@ -14,6 +14,7 @@ def printPic():
 
 #merges the three images
 def convertMergeImages():
+    subprocess.call(["convert"])
 
 #adds the text to final image.
 def convertAddText():
