@@ -1,8 +1,9 @@
-wimport picamera
+mport picamera
 import time
 import itertools
 import cups
 import threading
+import subprocess
 
 from PIL import Image
 from time import sleep
@@ -17,15 +18,14 @@ class overlayText(threading.Thread):
                          "-pointsize", "40",
                          "-fill", "HotPink2",
                          "-draw" "'text 90,660 \"Nadine & Kenneth - July 23rd, 2016 - Dreams Tulum - Mexico\" '",
-                         "temp"+threadID+".jpg", threadID+".jpg"])
+                         "temp"+'threadID'+".jpg", 'threadID'+".jpg"])
 
-def printPic(){
-    #print
-    #conn = cups.Connection()
-    #printers = conn.getPrinters ()
-    #printer_name=printers.keys()[0]
-    #conn.printFile (printer_name, file, "test", {})
-}
+def printPic():
+    conn = cups.Connection()
+    printers = conn.getPrinters ()
+    printer_name=printers.keys()[0]
+    conn.printFile (printer_name, file, "test", {})
+
 
 with picamera.PiCamera() as camera:
     camera.resolution = (1280, 720)
@@ -37,10 +37,10 @@ with picamera.PiCamera() as camera:
         index = 0;
         while index < 2:
             #save image
-            camera.capture("temp"+index+'.jpg')
-            overlayTextThread = overlayText(index, index)
+            camera.capture("temp"+'index'+".jpg")
+            overlayTextThread = overlayText(index)
             overlayTextThread.start()
-            index++
+            index=index+1
             time.sleep(1)
 
         #printPic()
