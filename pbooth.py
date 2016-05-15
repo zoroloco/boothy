@@ -18,7 +18,12 @@ def printPic():
 
 #merges the three images
 def convertMergeImages():
-    subprocess.call(["convert"])
+    #create a dummy blank
+    subprocess.call(["convert -size 640x480 xc:white /mnt/share/boothy/3.jpg"])
+    #now check in a loop if the 3.jpg file exists. if so, then
+    sleep(2)
+    #now merge all the images
+    subprocess.call(["montage 0.jpg 1.jpg 2.jpg 3.jpg -geometry +2+2 /mnt/share/boothy/love_montage.jpg"])
 
 #adds the text to final image.
 def convertAddText():
