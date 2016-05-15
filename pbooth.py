@@ -25,22 +25,24 @@ def convertAddText():
                 "-draw" "'text 90,660 \"Nadine & Kenneth - July 23rd, 2016 - Dreams Tulum - Mexico\" '",
                 "love.jpg", "love_final.jpg"])
 
-with picamera.PiCamera() as camera:
-    camera.resolution = (1280, 720)
-    camera.framerate = 24
+def captureImage(imageName):
+    with picamera.PiCamera() as camera:
+        camera.resolution = (1280, 720)
+        camera.framerate = 24
 
-    try:
-        camera.start_preview()
-
-        index = 0;
-        while index < 2:
+        try:
+            camera.start_preview()
             #save image
-            camera.capture("temp"+'index'+".jpg",, resize=(320, 240)))
-            index=index+1
-            sleep(2)
-        #printPic()
-    finally:
-        camera.close()
+            camera.capture(imageName, resize=(320, 240))
+        finally:
+            camera.close()
 
+captureImage("0.jpg")
+sleep(1)
+captureImage("1.jpg")
+sleep(1)
+captureImage("2.jpg")
+sleep(1)
 #convertMergeImages()
 #convertText()
+#printPic()
