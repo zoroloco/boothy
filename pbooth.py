@@ -37,7 +37,7 @@ def captureImage(imageName):
         try:
             camera.start_preview()
             #save image
-            camera.capture(imageName, resize=(IMG_WIDTH, IMG_HEIGHT))
+            camera.capture(imageName, resize=(IMAGE_WIDTH, IMAGE_HEIGHT))
         finally:
             camera.close()
 
