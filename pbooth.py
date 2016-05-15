@@ -1,4 +1,4 @@
-mport picamera
+import picamera
 import time
 import itertools
 import cups
