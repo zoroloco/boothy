@@ -17,7 +17,7 @@ class overlayText(threading.Thread):
                          "-font", "/usr/share/fonts/truetype/droid/DroidSerif-Italic.ttf",
                          "-pointsize", "40",
                          "-fill", "HotPink2",
-                         "-draw" "'text 90,660 \"Nadine & Kenneth - July 23rd, 2016 - Dreams Tulum - Mexico\" '",
+                         "-draw" "text 90,660 \"Nadine & Kenneth - July 23rd, 2016 - Dreams Tulum - Mexico\" ",
                          "temp"+'threadID'+".jpg", 'threadID'+".jpg"])
 
 def printPic():
