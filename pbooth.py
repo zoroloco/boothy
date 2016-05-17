@@ -21,33 +21,34 @@ def printPic():
 
 #merges the three images
 def convertMergeImages():
-    #create a dummy blank
-    subprocess.call(["convert",
-                     "-size", "640x480",
-                     "xc:white",
-                     tempFilePath+"3.jpg"])
-    #now check in a loop if the 3.jpg file exists. if so, then
-    sleep(2)
     #now merge all the images
-    print "Blank 4th image created."
     subprocess.call(["montage",
                      tempFilePath+"0.jpg",
                      tempFilePath+"1.jpg",
                      tempFilePath+"2.jpg",
                      tempFilePath+"3.jpg",
                      "-geometry", "+2+2",
-                     tempFilePath+"love_montage.jpg"])
+                     filePath+fileName])
     print "Images have been merged."
 
-#adds the text to final image.
-def convertAddText():
+#adds a text decoration to the image.
+def convertAddText(imageName):
     subprocess.call(["convert",
                 "-font", "/usr/share/fonts/truetype/droid/DroidSerif-Italic.ttf",
                 "-pointsize", "40",
                 "-fill", "HotPink2",
-                "-draw", "text 90,660 \'Nadine & Kenneth - July 23rd, 2016 - Dreams Tulum - Mexico\'",
-                tempFilePath+"love_montage.jpg", filePath+fileName])
-    print "Text overlay added to image."
+                "-draw", "text 0,0 \'Nadine & Kenneth\'",
+                "-wave", "-50x640",
+                imageName, imageName])
+    print "Text overlay added to image "+imageName
+
+def captureDummyImage(imageName):
+    #create a dummy blank
+    subprocess.call(["convert",
+                     "-size", "640x480",
+                     "xc:white",
+                     imageName])
+    print "Image "+imageName+" created."
 
 def captureImage(imageName):
     with picamera.PiCamera() as camera:
@@ -69,7 +70,8 @@ captureImage(tempFilePath+"1.jpg")
 sleep(1)
 captureImage(tempFilePath+"2.jpg")
 sleep(1)
-convertMergeImages()
+captureDummyImage(tempFilePath+"3.jpg")
 sleep(2)
-convertAddText()
+convertAddText(tempFilePath+"3.jpg")
+convertMergeImages()
 #printPic()
