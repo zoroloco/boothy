@@ -28,7 +28,7 @@ def convertMergeImages():
                      tempFilePath+"2.jpg",
                      tempFilePath+"3.jpg",
                      "-geometry", "+2+2",
-                     filePath+fileName])
+                     tempFilePath+fileName])
     print "Images have been merged."
 
 #adds a text decoration to the image.
