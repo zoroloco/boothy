@@ -6,11 +6,10 @@ import subprocess
 from PIL import Image
 from time import sleep
 
-filePath = "/mnt/share/boothy/"
-tempFilePath = "/tmp/"
+filePath     = "/mnt/share/boothy/"
 IMAGE_WIDTH  = 640
 IMAGE_HEIGHT = 480
-fileName = "love_final.jpg"
+fileName     = "love_final.jpg"
 
 def printPic():
     conn = cups.Connection()
@@ -23,31 +22,26 @@ def printPic():
 def convertMergeImages():
     #now merge all the images
     subprocess.call(["montage",
-                     tempFilePath+"0.jpg",
-                     tempFilePath+"1.jpg",
-                     tempFilePath+"2.jpg",
-                     tempFilePath+"3.jpg",
+                     filePath+"0.jpg",
+                     filePath+"1.jpg",
+                     filePath+"2.jpg",
+                     filePath+"3.jpg",
                      "-geometry", "+2+2",
-                     tempFilePath+fileName])
+                     filePath+fileName])
     print "Images have been merged."
-
-#adds a text decoration to the image.
-def convertAddText(imageName):
-    subprocess.call(["convert",
-                "-font", "/usr/share/fonts/truetype/droid/DroidSerif-Italic.ttf",
-                "-pointsize", "40",
-                "-fill", "HotPink2",
-                "-draw", "text 0,0 \'Nadine & Kenneth\'",
-                "-wave", "-50x640",
-                imageName, imageName])
-    print "Text overlay added to image "+imageName
 
 def captureDummyImage(imageName):
     #create a dummy blank
     subprocess.call(["convert",
                      "-size", "640x480",
-                     "xc:white",
+                     "-font", "/usr/share/fonts/truetype/droid/DroidSerif-Italic.ttf",
+                     "-pointsize", "22",
+                     "-fill", "HotPink2",
+                     "label:\"Nadine & Kenneth - July 23, 2016 - Dreams Tulum, Mexico\"",
+                     "-virtual-pixel", "background",
+                     "-distort", "Arc 340",
                      imageName])
+
     print "Image "+imageName+" created."
 
 def captureImage(imageName):
@@ -64,14 +58,13 @@ def captureImage(imageName):
             camera.close()
 
 
-captureImage(tempFilePath+"0.jpg")
-sleep(1)
-captureImage(tempFilePath+"1.jpg")
-sleep(1)
-captureImage(tempFilePath+"2.jpg")
-sleep(1)
-captureDummyImage(tempFilePath+"3.jpg")
-sleep(2)
-convertAddText(tempFilePath+"3.jpg")
-convertMergeImages()
+#captureImage(tempFilePath+"0.jpg")
+#sleep(1)
+#captureImage(tempFilePath+"1.jpg")
+#sleep(1)
+#captureImage(tempFilePath+"2.jpg")
+#sleep(1)
+captureDummyImage(filePath+"3.jpg")
+#sleep(2)
+#convertMergeImages()
 #printPic()
