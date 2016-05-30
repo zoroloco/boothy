@@ -6,10 +6,14 @@ import subprocess
 from PIL import Image
 from time import sleep
 
+IMG1         = "1.jpg"
+IMG2         = "2.jpg"
+IMG3         = "3.jpg"
+IMG4         = "4logo.png"
 filePath     = "/mnt/share/boothy/"
+fileName     = "love_final.jpg"
 IMAGE_WIDTH  = 640
 IMAGE_HEIGHT = 480
-fileName     = "love_final.jpg"
 
 def printPic():
     conn = cups.Connection()
@@ -19,30 +23,13 @@ def printPic():
     print filePath+fileName+" sent to printer."
 
 #merges the three images
-def convertMergeImages():
+def convertMergeImages(img1,img2,img3,img4):
     #now merge all the images
     subprocess.call(["montage",
-                     filePath+"0.jpg",
-                     filePath+"1.jpg",
-                     filePath+"2.jpg",
-                     filePath+"3.jpg",
+                     img1,img2,img3,img4,
                      "-geometry", "+2+2",
                      filePath+fileName])
     print "Images have been merged."
-
-def captureDummyImage(imageName):
-    #create a dummy blank
-    subprocess.call(["convert",
-                     "-size", "640x480",
-                     "-font", "/usr/share/fonts/truetype/droid/DroidSerif-Italic.ttf",
-                     "-pointsize", "22",
-                     "-fill", "HotPink2",
-                     "label:\"Nadine & Kenneth - July 23, 2016 - Dreams Tulum, Mexico\"",
-                     "-virtual-pixel", "background",
-                     "-distort", "Arc 340",
-                     imageName])
-
-    print "Image "+imageName+" created."
 
 def captureImage(imageName):
     with picamera.PiCamera() as camera:
@@ -58,13 +45,11 @@ def captureImage(imageName):
             camera.close()
 
 
-#captureImage(tempFilePath+"0.jpg")
-#sleep(1)
-#captureImage(tempFilePath+"1.jpg")
-#sleep(1)
-#captureImage(tempFilePath+"2.jpg")
-#sleep(1)
-captureDummyImage(filePath+"3.jpg")
-#sleep(2)
-#convertMergeImages()
+captureImage(IMG1)
+sleep(1)
+captureImage(IMG2)
+sleep(1)
+captureImage(IMG3)
+sleep(1)
+convertMergeImages(IMG1,IMG2,IMG3,IMG4)
 #printPic()
