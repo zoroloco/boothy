@@ -2,6 +2,7 @@ import picamera
 import itertools
 import cups
 import subprocess
+import os
 
 from PIL import Image
 from time import sleep
@@ -22,14 +23,20 @@ def printPic():
     conn.printFile (printer_name, file, filePath+"love_montage.jpg", {})
     print filePath+fileName+" sent to printer."
 
-#merges the three images
-def convertMergeImages(img1,img2,img3,img4):
+#merges the 4 images
+def convertMergeImages():
     #now merge all the images
     subprocess.call(["montage",
-                     img1,img2,img3,img4,
+                     IMG1,IMG2,IMG3,IMG4,
                      "-geometry", "+2+2",
                      filePath+fileName])
     print "Images have been merged."
+
+def cleanUp():
+    print "Deleting temp images."
+    os.remove(IMG1);
+    os.remove(IMG2);
+    os.remove(IMG3);
 
 def captureImage(imageName):
     with picamera.PiCamera() as camera:
@@ -51,5 +58,6 @@ captureImage(IMG2)
 sleep(1)
 captureImage(IMG3)
 sleep(1)
-convertMergeImages(IMG1,IMG2,IMG3,IMG4)
+convertMergeImages()
 #printPic()
+cleanUp()
