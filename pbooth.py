@@ -17,15 +17,19 @@ IMAGE_WIDTH      = 640
 IMAGE_HEIGHT     = 480
 overlay_renderer = None
 
+#print the image
 def printPic():
+    addPreviewOverlay(635,335,75,"printing...!")
     conn = cups.Connection()
-    printers = conn.getPrinters ()
-    printer_name=printers.keys()[0]
-    conn.printFile (printer_name, file, filePath+fileName, {})
-    print filePath+fileName+" sent to printer."
+    printers = conn.getPrinters()
+    default_printer = printers.keys()[0]
+    cups.setUser('pi')
+    conn.printFile (default_printer, fileName, "boothy", {'fit-to-page':'True'})
+    print "Print job successfully created."
 
 #merges the 4 images
 def convertMergeImages():
+    addPreviewOverlay(635,335,75,"merging images...")
     #now merge all the images
     subprocess.call(["montage",
                      IMG1,IMG2,IMG3,IMG4,
@@ -38,6 +42,7 @@ def cleanUp():
     os.remove(IMG1)
     os.remove(IMG2)
     os.remove(IMG3)
+    os.remove(fileName)
 
 def captureImage(imageName):
     addPreviewOverlay(635,215,100,"3")
@@ -69,15 +74,16 @@ def addPreviewOverlay(xcoord,ycoord,fontSize,overlayText):
 
 #run a full series
 def play():
-    #captureImage(IMG1)
-    #sleep(1)
-    #captureImage(IMG2)
-    #sleep(1)
-    #captureImage(IMG3)
-    #sleep(1)
-    #convertMergeImages()
+    captureImage(IMG1)
+    sleep(1)
+    captureImage(IMG2)
+    sleep(1)
+    captureImage(IMG3)
+    sleep(1)
+    convertMergeImages()
+    sleep(1)
     printPic()
-    #cleanUp()
+    cleanUp()
 
 #start flow
 with picamera.PiCamera() as camera:
