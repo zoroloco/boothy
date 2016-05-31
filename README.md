@@ -1,32 +1,19 @@
--- HLR
 
-Plug-in
-   Turns on raspivid preview
-   Show text that says 'hit red button'
-Press Red button
-   Count down 3-2-1
-   Flash
-   Save Image 1
-   Sleep 3 seconds
-   Countdown 3-2-1
-   Flash
-   Save Image 2
-   Sleep 3 seconds
-   Count down 3-2-1
-   Flash
-   Save Image 3
-   Display on screen "processing..."
-   Merge the 3 images with template
-   Print image
+PHOTOBOOTH
 
-   Go back to raspivid preview
-   Show text that says 'hit red button'
+This project is my photobooth for my wedding. For about $200, you can create a fun photobooth. Python already has a very rich API that interfaces with the camera.
+
+Required materials:
+   - Raspberry Pi 2
+   - 2.1 amp DC power adaptor
+   - Raspberry Pi Camera module (https://www.raspberrypi.org/products/camera-module/)
+   - 7 inch LCD screen (https://www.element14.com/community/docs/DOC-78156/l/raspberry-pi-7-touchscreen-display)
+   - Canon Selphy 1200 printer
+   - Big huge red button (https://www.sparkfun.com/products/9181)
+   
+1.) Install the latest Raspbian distribution to your Raspberry Pi. This has been tested on Jessie.
+2.) Follow the install steps from INSTALL.txt file.  This will give you the necessary libraries.
+3.) Connect the LCD and camera to the Pi and plug it in.
 
 
-Sample imagemagick scripts:
-
-convert -font /usr/share/fonts/truetype/droid/DroidSerif-Italic.ttf -pointsize 40 -fill HotPink2 -draw 'text 90,660 "Nadine & Kenneth - July 23rd, 2016 - Dreams Tulum - Mexico" ' /mnt/share/boothy/love_montage.jpg /mnt/share/boothy/love_final.jpg
-
-convert -size 640x480 xc:white /mnt/share/boothy/3.jpg
-
-montage /mnt/share/boothy/0.jpg /mnt/share/boothy/1.jpg /mnt/share/boothy/2.jpg /mnt/share/boothy/3.jpg -geometry +2+2 /mnt/share/boothy/love_montage.jpg
+Funcionality:
