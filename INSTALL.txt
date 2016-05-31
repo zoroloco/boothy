@@ -1,6 +1,8 @@
-
+apt-get update
+apt-get install
 apt-get install cups
 apt-get install python-cups
 apt-get install picamera
 apt-get install defoma
 apt-get install xrdp
+apt-get install imagemagick
