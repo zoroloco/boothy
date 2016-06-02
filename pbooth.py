@@ -4,6 +4,7 @@ import cups
 import subprocess
 import os
 import sys
+import RPi.GPIO as GPIO
 from PIL import Image, ImageDraw, ImageFont
 from time import sleep
 
@@ -15,11 +16,16 @@ filePath         = ""
 fileName         = "love_final.jpg"
 IMAGE_WIDTH      = 640
 IMAGE_HEIGHT     = 480
+BUTTON_PIN       = 26
 overlay_renderer = None
+buttonEvent      = False
+
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(BUTTON_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 #print the image
 def printPic():
-    addPreviewOverlay(635,335,75,"printing...!")
+    addPreviewOverlay(435,335,100,"printing...")
     conn = cups.Connection()
     printers = conn.getPrinters()
     default_printer = printers.keys()[0]
@@ -29,7 +35,7 @@ def printPic():
 
 #merges the 4 images
 def convertMergeImages():
-    addPreviewOverlay(635,335,75,"merging images...")
+    addPreviewOverlay(435,335,100,"merging images...")
     #now merge all the images
     subprocess.call(["montage",
                      IMG1,IMG2,IMG3,IMG4,
@@ -38,20 +44,23 @@ def convertMergeImages():
     print "Images have been merged."
 
 def cleanUp():
-    print "Deleting temp images."
+    print "Deleting old images."
     os.remove(IMG1)
     os.remove(IMG2)
     os.remove(IMG3)
     os.remove(fileName)
 
+def countdownFrom(secondsStr):
+    if seconds.isdigit() :
+        secondsNum = int(seconds)
+        if secondsNum >= 0 :
+            while secondsNum > 0 :
+            addPreviewOverlay(635,215,200,str(secondsNum))
+            sleep(1)
+            secondsNum --
+
 def captureImage(imageName):
-    addPreviewOverlay(635,215,100,"3")
-    sleep(1)
-    addPreviewOverlay(636,215,100,"2")
-    sleep(1)
-    addPreviewOverlay(635,215,100,"1")
-    sleep(1)
-    addPreviewOverlay(635,335,75,"smile!")
+    addPreviewOverlay(635,335,100,"smile!")
     #save image
     camera.capture(imageName, resize=(IMAGE_WIDTH, IMAGE_HEIGHT))
     print "Image "+imageName+" captured."
@@ -74,16 +83,30 @@ def addPreviewOverlay(xcoord,ycoord,fontSize,overlayText):
 
 #run a full series
 def play():
-    captureImage(IMG1)
-    sleep(1)
-    captureImage(IMG2)
-    sleep(1)
-    captureImage(IMG3)
-    sleep(1)
-    convertMergeImages()
-    sleep(1)
-    printPic()
-    cleanUp()
+    print "Starting play sequence"
+    try:
+        camera.start_preview()
+
+        countdownFrom(5)
+        captureImage(IMG1)
+        sleep(1)
+
+        countdownFrom(3)
+        captureImage(IMG2)
+        sleep(1)
+
+        countdownFrom(3)
+        captureImage(IMG3)
+        sleep(1)
+
+        convertMergeImages()
+        sleep(1)
+        #printPic()
+        cleanUp()
+    except:
+        print 'Unexpected error : ', sys.exc_info()[0], sys.exc_info()[1]
+    finally:
+        camera.close()
 
 #start flow
 with picamera.PiCamera() as camera:
@@ -107,11 +130,13 @@ with picamera.PiCamera() as camera:
     camera.vflip                 = False
     camera.crop                  = (0.0, 0.0, 1.0, 1.0)
 
-    try:
-        camera.start_preview()
-        addPreviewOverlay(50,340,50,"WHATEVER YOU DO, DO NOT PRESS THE BIG RED BUTTON!!!")
-        play()
-    except:
-        print 'Unexpected error : ', sys.exc_info()[0], sys.exc_info()[1]
-    finally:
-        camera.close()
+    while True:
+        input_state = GPIO.input(BUTTON_PIN)
+        if input_state == True :
+            if buttonEvent == False :
+                buttonEvent = True
+                print "Big red button pressed!"
+                play()
+        else :
+            buttonEvent = False
+            print "Big red button de-pressed!"
