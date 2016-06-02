@@ -35,7 +35,7 @@ def printPic():
 
 #merges the 4 images
 def convertMergeImages():
-    addPreviewOverlay(435,335,100,"merging images...")
+    addPreviewOverlay(335,335,100,"merging images...")
     #now merge all the images
     subprocess.call(["montage",
                      IMG1,IMG2,IMG3,IMG4,
@@ -51,16 +51,15 @@ def cleanUp():
     os.remove(fileName)
 
 def countdownFrom(secondsStr):
-    if seconds.isdigit() :
-        secondsNum = int(seconds)
-        if secondsNum >= 0 :
-            while secondsNum > 0 :
+    secondsNum = int(secondsStr)
+    if secondsNum >= 0 :
+        while secondsNum > 0 :
             addPreviewOverlay(635,215,200,str(secondsNum))
             sleep(1)
-            secondsNum --
+            secondsNum=secondsNum-1
 
 def captureImage(imageName):
-    addPreviewOverlay(635,335,100,"smile!")
+    addPreviewOverlay(535,335,100,"smile!")
     #save image
     camera.capture(imageName, resize=(IMAGE_WIDTH, IMAGE_HEIGHT))
     print "Image "+imageName+" captured."
@@ -84,29 +83,23 @@ def addPreviewOverlay(xcoord,ycoord,fontSize,overlayText):
 #run a full series
 def play():
     print "Starting play sequence"
-    try:
-        camera.start_preview()
 
-        countdownFrom(5)
-        captureImage(IMG1)
-        sleep(1)
+    countdownFrom(5)
+    captureImage(IMG1)
+    sleep(1)
 
-        countdownFrom(3)
-        captureImage(IMG2)
-        sleep(1)
+    countdownFrom(3)
+    captureImage(IMG2)
+    sleep(1)
 
-        countdownFrom(3)
-        captureImage(IMG3)
-        sleep(1)
+    countdownFrom(3)
+    captureImage(IMG3)
+    sleep(1)
 
-        convertMergeImages()
-        sleep(1)
-        #printPic()
-        cleanUp()
-    except:
-        print 'Unexpected error : ', sys.exc_info()[0], sys.exc_info()[1]
-    finally:
-        camera.close()
+    convertMergeImages()
+    sleep(1)
+    #printPic()
+    cleanUp()
 
 #start flow
 with picamera.PiCamera() as camera:
@@ -130,13 +123,25 @@ with picamera.PiCamera() as camera:
     camera.vflip                 = False
     camera.crop                  = (0.0, 0.0, 1.0, 1.0)
 
-    while True:
-        input_state = GPIO.input(BUTTON_PIN)
-        if input_state == True :
-            if buttonEvent == False :
-                buttonEvent = True
-                print "Big red button pressed!"
-                play()
-        else :
-            buttonEvent = False
-            print "Big red button de-pressed!"
+    try:
+        print "Starting preview"
+        camera.start_preview()
+        addPreviewOverlay(535,335,100,"Press red button to begin!")
+
+        print "Starting app loop"
+        while True:
+            input_state = GPIO.input(BUTTON_PIN)
+            if input_state == True :
+                if buttonEvent == False :
+                    buttonEvent = True
+                    print "Big red button pressed!"
+                    play()
+                    addPreviewOverlay(535,335,100,"Press red button to begin!")
+            else :
+                if buttonEvent == True :
+                    buttonEvent = False
+                    print "Big red button de-pressed!"
+    except:
+        print 'Unexpected error : ', sys.exc_info()[0], sys.exc_info()[1]
+    finally:
+        camera.close()
