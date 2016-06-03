@@ -1,7 +1,7 @@
 #!/bin/bash
 # Instruction: move this file to /usr/local/src and run from there.
 #
-# chmod +x build.sh
+# chmod +x buildboothy.sh
 #
 # This script will get latest site from github
 #
@@ -19,3 +19,12 @@ mkdir $SRC_DIR
 
 echo "Retrieving latest repo: git clone https://github.com/zoroloco/boothy.git " $SRC_DIR
 git clone https://github.com/zoroloco/boothy.git $SRC_DIR
+
+echo "Making run file executable."
+chmod +x $SRC_DIR/run.sh
+
+echo "Moving startup script to /etc/init.d"
+cp $SRC_DIR/rpi/etc/init.d/boothyStart.sh /etc/init.d
+chmod +x $SRC_DIR/rpi/etc/init.d/boothyStart.sh
+echo "Making boothy run automatically at boot"
+update-rc.d boothyStart.sh defaults
