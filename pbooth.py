@@ -32,6 +32,7 @@ def printPic():
     cups.setUser('pi')
     conn.printFile (default_printer, fileName, "boothy", {'fit-to-page':'True'})
     print "Print job successfully created."
+    sleep(10)
 
 #merges the 4 images
 def convertMergeImages():
@@ -126,7 +127,7 @@ with picamera.PiCamera() as camera:
     try:
         print "Starting preview"
         camera.start_preview()
-        addPreviewOverlay(535,335,100,"Press red button to begin!")
+        addPreviewOverlay(135,335,100,"Press red button to begin!")
 
         print "Starting app loop"
         while True:
@@ -136,7 +137,7 @@ with picamera.PiCamera() as camera:
                     buttonEvent = True
                     print "Big red button pressed!"
                     play()
-                    addPreviewOverlay(535,335,100,"Press red button to begin!")
+                    addPreviewOverlay(135,335,100,"Press red button to begin!")
             else :
                 if buttonEvent == True :
                     buttonEvent = False
