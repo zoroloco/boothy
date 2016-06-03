@@ -23,8 +23,11 @@ git clone https://github.com/zoroloco/boothy.git $SRC_DIR
 echo "Making run file executable."
 chmod +x $SRC_DIR/run.sh
 
+chmod +x $SRC_DIR/buildboothy.sh 
+
+echo "Making startup script executable"
+chmod +x $SRC_DIR/rpi/etc/init.d/boothyStart.sh
 echo "Moving startup script to /etc/init.d"
 cp $SRC_DIR/rpi/etc/init.d/boothyStart.sh /etc/init.d
-chmod +x $SRC_DIR/rpi/etc/init.d/boothyStart.sh
 echo "Making boothy run automatically at boot"
 update-rc.d boothyStart.sh defaults
