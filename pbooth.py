@@ -44,10 +44,6 @@ def convertMergeImages():
                      filePath+fileName])
     print "Images have been merged."
 
-def previewImage():
-    previewImage = Image.open(filePath+fileName)
-    previewImage.show()
-
 def cleanUp():
     print "Deleting any old images."
     if os.path.isfile(IMG1):
@@ -107,10 +103,6 @@ def play():
 
     convertMergeImages()
     sleep(1)
-
-    previewImage()
-    sleep(3)
-
     #printPic()
     cleanUp()
 
