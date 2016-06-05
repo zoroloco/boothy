@@ -39,7 +39,7 @@ do_start () {
 do_stop () {
     log_daemon_msg "Stopping system $DAEMON_NAME daemon"
     start-stop-daemon --stop --signal TERM --pidfile $PIDFILE
-    killall boothy
+    killall python 
 
     log_end_msg $?
 }

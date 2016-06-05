@@ -45,11 +45,15 @@ def convertMergeImages():
     print "Images have been merged."
 
 def cleanUp():
-    print "Deleting old images."
-    os.remove(IMG1)
-    os.remove(IMG2)
-    os.remove(IMG3)
-    os.remove(fileName)
+    print "Deleting any old images."
+    if os.path.isfile(IMG1):
+        os.remove(IMG1)
+    if os.path.isfile(IMG2):
+        os.remove(IMG2)
+    if os.path.isfile(IMG3):
+        os.remove(IMG3)
+    if os.path.isfile(fileName):
+        os.remove(fileName)
 
 def countdownFrom(secondsStr):
     secondsNum = int(secondsStr)
@@ -99,7 +103,7 @@ def play():
 
     convertMergeImages()
     sleep(1)
-    #printPic()
+    printPic()
     cleanUp()
 
 #start flow
