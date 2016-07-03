@@ -55,12 +55,12 @@ def deleteImages():
         os.remove(IMG2)
     if os.path.isfile(IMG3):
         os.remove(IMG3)
-    if os.path.isfile(fileName):
-        os.remove(fileName)
+    #if os.path.isfile(fileName):
+    #    os.remove(fileName)
 
-def archiveImages():
+#def archiveImages():
     #print "Archiving image: "+fileName
-    copyfile(cwDir+"/"+fileName, archivePath+"/"+fileName)
+    #copyfile(cwDir+"/"+fileName, archivePath+"/"+fileName)
 
 def countdownFrom(secondsStr):
     secondsNum = int(secondsStr)
@@ -115,7 +115,7 @@ def play():
     time.sleep(1)
     #printPic()
 
-    archiveImages()
+    #archiveImages()
     deleteImages()
 
 #start flow
