@@ -3,6 +3,7 @@ import itertools
 import cups
 import subprocess
 import os
+from shutil import copyfile
 import sys
 import time
 import RPi.GPIO as GPIO
@@ -58,8 +59,8 @@ def deleteImages():
         os.remove(fileName)
 
 def archiveImages():
-    print "Archiving image: "+fileName
-    os.rename(cwDir+"/"+fileName, archivePath+"/"+fileName)
+    #print "Archiving image: "+fileName
+    copyfile(cwDir+"/"+fileName, archivePath+"/"+fileName)
 
 def countdownFrom(secondsStr):
     secondsNum = int(secondsStr)
