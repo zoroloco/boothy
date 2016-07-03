@@ -12,7 +12,8 @@ IMG1             = "1.jpg"
 IMG2             = "2.jpg"
 IMG3             = "3.jpg"
 IMG4             = "4logo.png"
-filePath         = "/usr/local/src/boothy/photos/"
+cwDir            = "/usr/local/src/boothy"
+archivePath      = cwDir+"/photos"
 fileName         = ""
 IMAGE_WIDTH      = 640
 IMAGE_HEIGHT     = 480
@@ -57,7 +58,7 @@ def deleteImages():
 
 def archiveImages():
     print "Archiving image: "+fileName;
-    os.rename(fileName, filePath+fileName)
+    os.rename(cwDir+"/"+fileName, archivePath+"/"+fileName)
 
 def countdownFrom(secondsStr):
     secondsNum = int(secondsStr)
