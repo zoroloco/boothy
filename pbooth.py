@@ -4,16 +4,16 @@ import cups
 import subprocess
 import os
 import sys
+import time
 import RPi.GPIO as GPIO
 from PIL import Image, ImageDraw, ImageFont
-from time import sleep
 
 IMG1             = "1.jpg"
 IMG2             = "2.jpg"
 IMG3             = "3.jpg"
 IMG4             = "4logo.png"
-filePath         = ""
-fileName         = "love_final.jpg"
+filePath         = "/usr/local/src/boothy/photos"
+fileName         = ""
 IMAGE_WIDTH      = 640
 IMAGE_HEIGHT     = 480
 BUTTON_PIN       = 26
@@ -32,7 +32,7 @@ def printPic():
     cups.setUser('pi')
     conn.printFile (default_printer, fileName, "boothy", {'fit-to-page':'True'})
     print "Print job successfully created."
-    sleep(10)
+    time.sleep(10)
 
 #merges the 4 images
 def convertMergeImages():
@@ -60,7 +60,7 @@ def countdownFrom(secondsStr):
     if secondsNum >= 0 :
         while secondsNum > 0 :
             addPreviewOverlay(635,215,200,str(secondsNum))
-            sleep(1)
+            time.sleep(1)
             secondsNum=secondsNum-1
 
 def captureImage(imageName):
@@ -89,20 +89,23 @@ def addPreviewOverlay(xcoord,ycoord,fontSize,overlayText):
 def play():
     print "Starting play sequence"
 
+    fileName = time.strftime("%Y%m%d-%H%M%S")+".jpg"
+    print "Created filename: "+fileName
+
     countdownFrom(5)
     captureImage(IMG1)
-    sleep(1)
+    time.sleep(1)
 
     countdownFrom(5)
     captureImage(IMG2)
-    sleep(1)
+    time.sleep(1)
 
     countdownFrom(5)
     captureImage(IMG3)
-    sleep(1)
+    time.sleep(1)
 
     convertMergeImages()
-    sleep(1)
+    time.sleep(1)
     #printPic()
     cleanUp()
 

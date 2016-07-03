@@ -23,7 +23,7 @@ git clone https://github.com/zoroloco/boothy.git $SRC_DIR
 echo "Making run file executable."
 chmod +x $SRC_DIR/run.sh
 
-chmod +x $SRC_DIR/buildboothy.sh 
+chmod +x $SRC_DIR/buildboothy.sh
 
 echo "Making startup script executable"
 chmod +x $SRC_DIR/rpi/etc/init.d/boothyStart.sh

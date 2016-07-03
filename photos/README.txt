@@ -1,0 +1,1 @@
+This is the directory where all the photos will reside.
