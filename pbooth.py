@@ -93,11 +93,11 @@ def play():
     captureImage(IMG1)
     sleep(1)
 
-    countdownFrom(3)
+    countdownFrom(5)
     captureImage(IMG2)
     sleep(1)
 
-    countdownFrom(3)
+    countdownFrom(5)
     captureImage(IMG3)
     sleep(1)
 
