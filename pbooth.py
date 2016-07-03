@@ -41,10 +41,10 @@ def convertMergeImages():
     subprocess.call(["montage",
                      IMG1,IMG2,IMG3,IMG4,
                      "-geometry", "+2+2",
-                     filePath+fileName])
+                     fileName])
     print "Images have been merged."
 
-def cleanUp():
+def deleteImages():
     print "Deleting any old images."
     if os.path.isfile(IMG1):
         os.remove(IMG1)
@@ -54,6 +54,10 @@ def cleanUp():
         os.remove(IMG3)
     if os.path.isfile(fileName):
         os.remove(fileName)
+
+def archiveImages():
+    print "Archiving image: "+fileName;
+    os.rename(fileName, filePath+fileName)
 
 def countdownFrom(secondsStr):
     secondsNum = int(secondsStr)
@@ -107,7 +111,9 @@ def play():
     convertMergeImages()
     time.sleep(1)
     #printPic()
-    cleanUp()
+
+    archiveImages()
+    #deleteImages()
 
 #start flow
 with picamera.PiCamera() as camera:
