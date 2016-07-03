@@ -18,6 +18,7 @@ fileName         = ""
 IMAGE_WIDTH      = 640
 IMAGE_HEIGHT     = 480
 BUTTON_PIN       = 26
+PHOTO_DELAY      = 1
 overlay_renderer = None
 buttonEvent      = False
 
@@ -57,7 +58,7 @@ def deleteImages():
         os.remove(fileName)
 
 def archiveImages():
-    print "Archiving image: "+fileName;
+    print "Archiving image: "+fileName
     os.rename(cwDir+"/"+fileName, archivePath+"/"+fileName)
 
 def countdownFrom(secondsStr):
@@ -97,15 +98,15 @@ def play():
     fileName = time.strftime("%Y%m%d-%H%M%S")+".jpg"
     print "Created filename: "+fileName
 
-    countdownFrom(5)
+    countdownFrom(PHOTO_DELAY)
     captureImage(IMG1)
     time.sleep(1)
 
-    countdownFrom(5)
+    countdownFrom(PHOTO_DELAY)
     captureImage(IMG2)
     time.sleep(1)
 
-    countdownFrom(5)
+    countdownFrom(PHOTO_DELAY)
     captureImage(IMG3)
     time.sleep(1)
 
@@ -114,7 +115,7 @@ def play():
     #printPic()
 
     archiveImages()
-    #deleteImages()
+    deleteImages()
 
 #start flow
 with picamera.PiCamera() as camera:
