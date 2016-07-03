@@ -13,7 +13,8 @@ IMG1             = "1.jpg"
 IMG2             = "2.jpg"
 IMG3             = "3.jpg"
 IMG4             = "4logo.png"
-fileName         = ""
+cwDir            = "/usr/local/src"
+archiveDir       = cwDir+"/photos"
 IMAGE_WIDTH      = 640
 IMAGE_HEIGHT     = 480
 BUTTON_PIN       = 26
@@ -25,7 +26,7 @@ GPIO.setmode(GPIO.BCM)
 GPIO.setup(BUTTON_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 #print the image
-def printPic():
+def printPic(fileName):
     addPreviewOverlay(435,335,100,"printing...")
     conn = cups.Connection()
     printers = conn.getPrinters()
@@ -36,7 +37,7 @@ def printPic():
     time.sleep(10)
 
 #merges the 4 images
-def convertMergeImages():
+def convertMergeImages(fileName):
     addPreviewOverlay(335,335,100,"merging images...")
     #now merge all the images
     subprocess.call(["montage",
@@ -45,7 +46,7 @@ def convertMergeImages():
                      fileName])
     print "Images have been merged."
 
-def deleteImages():
+def deleteImages(fileName):
     print "Deleting any old images."
     if os.path.isfile(IMG1):
         os.remove(IMG1)
@@ -53,6 +54,12 @@ def deleteImages():
         os.remove(IMG2)
     if os.path.isfile(IMG3):
         os.remove(IMG3)
+    if os.path.isfile(fileName):
+        os.remove(fileName);
+
+def archiveImage(fileName):
+    print "Saving off image: "+fileName
+    copyfile(cwDir+"/"+fileName,archiveDir+"/"+fileName)
 
 def countdownFrom(secondsStr):
     secondsNum = int(secondsStr)
@@ -103,12 +110,12 @@ def play():
     captureImage(IMG3)
     time.sleep(1)
 
-    convertMergeImages()
+    convertMergeImages(fileName)
     time.sleep(1)
-    #printPic()
+    #printPic(fileName)
 
-    #archiveImages()
-    deleteImages()
+    archiveImage(fileName)
+    deleteImages(fileName)
 
 #start flow
 with picamera.PiCamera() as camera:
