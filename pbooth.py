@@ -1,3 +1,11 @@
+# boothy - Photobooth application for Raspberry Pi
+# developed by Kenneth Centurion
+#
+# This application will take 3 images with PHOTO_DELAY seconds between.
+# Will have text overlay on the screen with a countdown.  Will then merge
+# the 3 images with a template fourth image "4logo.png" in a grid. The final
+# image is then sent to the printer using the CUPs API.
+
 import picamera
 import itertools
 import cups
@@ -13,6 +21,7 @@ from PIL import Image, ImageDraw, ImageFont
 IMG1             = "1.jpg"
 IMG2             = "2.jpg"
 IMG3             = "3.jpg"
+CurrentWorkingDir= "/usr/local/src/boothy"
 IMG4             = "4logo.png"
 logDir           = "logs"
 archiveDir       = "photos"
@@ -150,13 +159,13 @@ def initLogger(output_dir):
     handler.setFormatter(formatter)
     logger.addHandler(handler)
     # create error file handler and set level to error
-    handler = logging.FileHandler(os.path.join(output_dir, time.strftime("%Y%m%d")+"_error.log"),"w", encoding=None, delay="true")
+    handler = logging.FileHandler(output_dir+"/"+time.strftime("%Y%m%d")+"_error.log","w", encoding=None, delay="true")
     handler.setLevel(logging.ERROR)
     formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
     handler.setFormatter(formatter)
     logger.addHandler(handler)
     # create debug file handler and set level to debug
-    handler = logging.FileHandler(os.path.join(output_dir, time.strftime("%Y%m%d")+"_boothy.log"),"w")
+    handler = logging.FileHandler(output_dir+"/"+time.strftime("%Y%m%d")+"_debug.log","w", encoding=None, delay="true")
     handler.setLevel(logging.DEBUG)
     formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
     handler.setFormatter(formatter)
@@ -164,6 +173,7 @@ def initLogger(output_dir):
 
 #start flow
 with picamera.PiCamera() as camera:
+    os.chdir(CurrentWorkingDir)
     initLogger(logDir)
     initCamera(camera)
 
@@ -189,3 +199,5 @@ with picamera.PiCamera() as camera:
         logging.error("Unhandled exception : " , exc_info=True)
     finally:
         camera.close()
+
+#end
