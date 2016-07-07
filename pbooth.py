@@ -6,6 +6,7 @@ import os
 from shutil import copyfile
 import sys
 import time
+import logging
 import RPi.GPIO as GPIO
 from PIL import Image, ImageDraw, ImageFont
 
@@ -13,8 +14,8 @@ IMG1             = "1.jpg"
 IMG2             = "2.jpg"
 IMG3             = "3.jpg"
 IMG4             = "4logo.png"
-cwDir            = "/usr/local/src/boothy"
-archiveDir       = cwDir+"/photos"
+logDir           = "logs"
+archiveDir       = "photos"
 IMAGE_WIDTH      = 640
 IMAGE_HEIGHT     = 480
 BUTTON_PIN       = 26
@@ -33,7 +34,7 @@ def printPic(fileName):
     default_printer = printers.keys()[0]
     cups.setUser('pi')
     conn.printFile (default_printer, fileName, "boothy", {'fit-to-page':'True'})
-    print "Print job successfully created."
+    logging.info("Print job successfully created.");
     time.sleep(10)
 
 #merges the 4 images
@@ -44,10 +45,10 @@ def convertMergeImages(fileName):
                      IMG1,IMG2,IMG3,IMG4,
                      "-geometry", "+2+2",
                      fileName])
-    print "Images have been merged."
+    logging.info("Images have been merged.")
 
 def deleteImages(fileName):
-    print "Deleting any old images."
+    logging.info("Deleting any old images.")
     if os.path.isfile(IMG1):
         os.remove(IMG1)
     if os.path.isfile(IMG2):
@@ -58,8 +59,8 @@ def deleteImages(fileName):
         os.remove(fileName);
 
 def archiveImage(fileName):
-    print "Saving off image: "+fileName
-    copyfile(cwDir+"/"+fileName,archiveDir+"/"+fileName)
+    logging.info("Saving off image: "+fileName)
+    copyfile(fileName,archiveDir+"/"+fileName)
 
 def countdownFrom(secondsStr):
     secondsNum = int(secondsStr)
@@ -73,7 +74,7 @@ def captureImage(imageName):
     addPreviewOverlay(535,335,100,"smile!")
     #save image
     camera.capture(imageName, resize=(IMAGE_WIDTH, IMAGE_HEIGHT))
-    print "Image "+imageName+" captured."
+    logging.info("Image "+imageName+" captured.")
 
 def addPreviewOverlay(xcoord,ycoord,fontSize,overlayText):
     global overlay_renderer
@@ -117,8 +118,8 @@ def play():
     archiveImage(fileName)
     deleteImages(fileName)
 
-#start flow
-with picamera.PiCamera() as camera:
+def initCamera(camera):
+    logging.info("Initializing camera.")
     #camera settings
     camera.resolution            = (1280, 720)
     camera.framerate             = 24
@@ -139,25 +140,52 @@ with picamera.PiCamera() as camera:
     camera.vflip                 = False
     camera.crop                  = (0.0, 0.0, 1.0, 1.0)
 
+def initLogger(output_dir):
+    logger = logging.getLogger()
+    logger.setLevel(logging.DEBUG)
+    # create console handler and set level to info
+    handler = logging.StreamHandler()
+    handler.setLevel(logging.INFO)
+    formatter = logging.Formatter("%(levelname)s - %(message)s")
+    handler.setFormatter(formatter)
+    logger.addHandler(handler)
+    # create error file handler and set level to error
+    handler = logging.FileHandler(os.path.join(output_dir, "error.log"),"w", encoding=None, delay="true")
+    handler.setLevel(logging.ERROR)
+    formatter = logging.Formatter("%(levelname)s - %(message)s")
+    handler.setFormatter(formatter)
+    logger.addHandler(handler)
+    # create debug file handler and set level to debug
+    handler = logging.FileHandler(os.path.join(output_dir, "all.log"),"w")
+    handler.setLevel(logging.DEBUG)
+    formatter = logging.Formatter("%(levelname)s - %(message)s")
+    handler.setFormatter(formatter)
+    logger.addHandler(handler)
+
+#start flow
+with picamera.PiCamera() as camera:
+    initLogger(logDir)
+    initCamera(camera)
+
     try:
-        print "Starting preview"
+        logging.info("Starting preview")
         camera.start_preview()
         addPreviewOverlay(135,335,100,"Press red button to begin!")
 
-        print "Starting app loop"
+        logging.info("Starting application loop")
         while True:
             input_state = GPIO.input(BUTTON_PIN)
             if input_state == True :
                 if buttonEvent == False :
                     buttonEvent = True
-                    print "Big red button pressed!"
+                    logging.info("Big red button pressed!")
                     play()
                     addPreviewOverlay(135,335,100,"Press red button to begin!")
             else :
                 if buttonEvent == True :
                     buttonEvent = False
-                    print "Big red button de-pressed!"
+                    logging.info("Big red button de-pressed!")
     except:
-        print 'Unexpected error : ', sys.exc_info()[0], sys.exc_info()[1]
+        log.error('Unexpected error : ', sys.exc_info()[0], sys.exc_info()[1])
     finally:
         camera.close()
