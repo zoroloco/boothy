@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# chmod +x smile.sh
+# chmod +x run.sh
 #
 #
 clear

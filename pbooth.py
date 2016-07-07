@@ -185,7 +185,7 @@ with picamera.PiCamera() as camera:
                 if buttonEvent == True :
                     buttonEvent = False
                     logging.info("Big red button de-pressed!")
-    except BaseException, excep:
-        logging.error("Unhandled exception : " + excep, exc_info=True)
+    except BaseException:
+        logging.error("Unhandled exception : " , exc_info=True)
     finally:
         camera.close()
