@@ -156,9 +156,9 @@ def initLogger(output_dir):
     handler.setFormatter(formatter)
     logger.addHandler(handler)
     # create debug file handler and set level to debug
-    handler = logging.FileHandler(os.path.join(output_dir, "all.log"),"w")
+    handler = logging.FileHandler(os.path.join(output_dir, time.strftime("%Y%m%d")+"_boothy.log"),"w")
     handler.setLevel(logging.DEBUG)
-    formatter = logging.Formatter("%(levelname)s - %(message)s")
+    formatter = logging.Formatter("["+time.strftime("%Y%m%d-%H%M%S")+"]:"+%(levelname)s - %(message)s")
     handler.setFormatter(formatter)
     logger.addHandler(handler)
 
@@ -186,6 +186,6 @@ with picamera.PiCamera() as camera:
                     buttonEvent = False
                     logging.info("Big red button de-pressed!")
     except:
-        log.error('Unexpected error : ', sys.exc_info()[0], sys.exc_info()[1])
+        logging.error('Unexpected error : ', sys.exc_info()[0], sys.exc_info()[1])
     finally:
         camera.close()
