@@ -150,7 +150,7 @@ def initLogger(output_dir):
     handler.setFormatter(formatter)
     logger.addHandler(handler)
     # create error file handler and set level to error
-    handler = logging.FileHandler(os.path.join(output_dir, "error.log"),"w", encoding=None, delay="true")
+    handler = logging.FileHandler(os.path.join(output_dir, time.strftime("%Y%m%d")+"_error.log"),"w", encoding=None, delay="true")
     handler.setLevel(logging.ERROR)
     formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
     handler.setFormatter(formatter)
@@ -186,6 +186,6 @@ with picamera.PiCamera() as camera:
                     buttonEvent = False
                     logging.info("Big red button de-pressed!")
     except:
-        logging.error('Unexpected error : ', sys.exc_info()[0], sys.exc_info()[1])
+        logging.error("Unexpected error : "+ sys.exc_info()[0] + " - " + sys.exc_info()[1] )
     finally:
         camera.close()
