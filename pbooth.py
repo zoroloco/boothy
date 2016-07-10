@@ -28,12 +28,15 @@ archiveDir       = "photos"
 IMAGE_WIDTH      = 640
 IMAGE_HEIGHT     = 480
 BUTTON_PIN       = 26
-PHOTO_DELAY      = 1
+LED_PIN          = 19
+PHOTO_DELAY      = 7
 overlay_renderer = None
 buttonEvent      = False
 
+#setup GPIOs
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(BUTTON_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(LED_PIN, GPIO.OUT)
 
 #print the image
 def printPic(fileName):
@@ -171,6 +174,15 @@ def initLogger(output_dir):
     handler.setFormatter(formatter)
     logger.addHandler(handler)
 
+def onButtonPress():
+    logging.info("Big red button pressed!")
+    play()
+    #reset the initial welcome message
+    addPreviewOverlay(135,335,100,"Press red button to begin!")
+
+def onButtonDePress():
+    logging.info("Big red button de-pressed!")
+
 #start flow
 with picamera.PiCamera() as camera:
     os.chdir(CurrentWorkingDir)
@@ -188,13 +200,11 @@ with picamera.PiCamera() as camera:
             if input_state == True :
                 if buttonEvent == False :
                     buttonEvent = True
-                    logging.info("Big red button pressed!")
-                    play()
-                    addPreviewOverlay(135,335,100,"Press red button to begin!")
+                    onButtonPress()
             else :
                 if buttonEvent == True :
                     buttonEvent = False
-                    logging.info("Big red button de-pressed!")
+                    onButtonDePress()
     except BaseException:
         logging.error("Unhandled exception : " , exc_info=True)
     finally:
