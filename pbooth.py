@@ -28,7 +28,7 @@ archiveDir       = "photos"
 IMAGE_WIDTH      = 640
 IMAGE_HEIGHT     = 480
 BUTTON_PIN       = 26
-LED_PIN          = 19
+LED_PIN          = 19 #connected to external 12v.
 PHOTO_DELAY      = 7
 overlay_renderer = None
 buttonEvent      = False
@@ -70,6 +70,9 @@ def deleteImages(fileName):
     if os.path.isfile(fileName):
         os.remove(fileName);
 
+def cleanUp():
+    GPIO.cleanup()
+
 def archiveImage(fileName):
     logging.info("Saving off image: "+fileName)
     copyfile(fileName,archiveDir+"/"+fileName)
@@ -83,10 +86,14 @@ def countdownFrom(secondsStr):
             secondsNum=secondsNum-1
 
 def captureImage(imageName):
+    GPIO.output(LED_PIN,GPIO.HIGH)
+    time.sleep(1)
     addPreviewOverlay(535,335,100,"smile!")
     #save image
     camera.capture(imageName, resize=(IMAGE_WIDTH, IMAGE_HEIGHT))
     logging.info("Image "+imageName+" captured.")
+    time.sleep(1)
+    GPIO.output(LED_PIN,GPIO.LOW)
 
 def addPreviewOverlay(xcoord,ycoord,fontSize,overlayText):
     global overlay_renderer
@@ -129,6 +136,7 @@ def play():
 
     archiveImage(fileName)
     deleteImages(fileName)
+    cleanUp()
 
 def initCamera(camera):
     logging.info("Initializing camera.")
@@ -186,10 +194,11 @@ def onButtonDePress():
 #start flow
 with picamera.PiCamera() as camera:
     os.chdir(CurrentWorkingDir)
-    initLogger(logDir)
-    initCamera(camera)
 
     try:
+        initLogger(logDir)
+        initCamera(camera)
+        GPIO.output(LED_PIN,GPIO.LOW)
         logging.info("Starting preview")
         camera.start_preview()
         addPreviewOverlay(135,335,100,"Press red button to begin!")
@@ -207,7 +216,11 @@ with picamera.PiCamera() as camera:
                     onButtonDePress()
     except BaseException:
         logging.error("Unhandled exception : " , exc_info=True)
+        camera.close()
+        cleanUp()
     finally:
+        logging.info("quitting...")
+        cleanUp()
         camera.close()
 
 #end
