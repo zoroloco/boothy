@@ -136,7 +136,6 @@ def play():
 
     archiveImage(fileName)
     deleteImages(fileName)
-    cleanUp()
 
 def initCamera(camera):
     logging.info("Initializing camera.")
