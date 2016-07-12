@@ -86,14 +86,10 @@ def countdownFrom(secondsStr):
             secondsNum=secondsNum-1
 
 def captureImage(imageName):
-    GPIO.output(LED_PIN,GPIO.HIGH)
-    time.sleep(1)
     addPreviewOverlay(535,335,100,"smile!")
     #save image
     camera.capture(imageName, resize=(IMAGE_WIDTH, IMAGE_HEIGHT))
     logging.info("Image "+imageName+" captured.")
-    time.sleep(1)
-    GPIO.output(LED_PIN,GPIO.LOW)
 
 def addPreviewOverlay(xcoord,ycoord,fontSize,overlayText):
     global overlay_renderer
@@ -183,7 +179,14 @@ def initLogger(output_dir):
 
 def onButtonPress():
     logging.info("Big red button pressed!")
+
+    #turn on flash
+    GPIO.output(LED_PIN,GPIO.HIGH)
+
     play()
+
+    #turn off flash
+
     #reset the initial welcome message
     addPreviewOverlay(135,335,100,"Press red button to begin!")
 
