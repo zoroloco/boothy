@@ -186,6 +186,7 @@ def onButtonPress():
     play()
 
     #turn off flash
+    GPIO.output(LED_PIN,GPIO.LOW)
 
     #reset the initial welcome message
     addPreviewOverlay(135,335,100,"Press red button to begin!")
