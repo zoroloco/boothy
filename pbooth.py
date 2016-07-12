@@ -128,7 +128,7 @@ def play():
 
     convertMergeImages(fileName)
     time.sleep(1)
-    #printPic(fileName)
+    printPic(fileName)
 
     archiveImage(fileName)
     deleteImages(fileName)
