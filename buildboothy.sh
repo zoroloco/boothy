@@ -25,8 +25,7 @@ chmod +x $SRC_DIR/run.sh
 
 chmod +x $SRC_DIR/buildboothy.sh
 
-echo "Making link to desktop for saved images."
-mkdir /home/pi/Desktop/fotos
+echo "Making symbolic link to desktop for saved images."
 ln -s $SRC_DIR/photos /home/pi/Desktop
 
 echo "Making startup script executable"
