@@ -25,11 +25,13 @@ CurrentWorkingDir= "/usr/local/src/boothy"
 IMG4             = "4logo.png"
 logDir           = "logs"
 archiveDir       = "photos"
-IMAGE_WIDTH      = 1280
-IMAGE_HEIGHT     = 720
+SCREEN_WIDTH     = 1280
+SCREEN_HEIGHT    = 720
+IMAGE_WIDTH      = 640
+IMAGE_HEIGHT     = 480
 BUTTON_PIN       = 26
 LED_PIN          = 19 #connected to external 12v.
-PHOTO_DELAY      = 7
+PHOTO_DELAY      = 2
 overlay_renderer = None
 buttonEvent      = False
 
@@ -93,7 +95,7 @@ def captureImage(imageName):
 
 def addPreviewOverlay(xcoord,ycoord,fontSize,overlayText):
     global overlay_renderer
-    img = Image.new("RGB", (1280, 720))
+    img = Image.new("RGB", (SCREEN_WIDTH, SCREEN_HEIGHT))
     draw = ImageDraw.Draw(img)
     draw.font = ImageFont.truetype(
                     "/usr/share/fonts/truetype/freefont/FreeSerif.ttf",fontSize)
@@ -106,6 +108,12 @@ def addPreviewOverlay(xcoord,ycoord,fontSize,overlayText):
                                               alpha=128);
     else:
         overlay_renderer.update(img.tostring())
+
+def addBorderOverlay():
+    global overlay_renderer2
+    img = Image.new("RGB", (SCREEN_WIDTH,SCREEN_HEIGHT))
+    draw = ImageDraw.Draw(img)
+    #draw.line
 
 #run a full series
 def play():
@@ -136,7 +144,7 @@ def play():
 def initCamera(camera):
     logging.info("Initializing camera.")
     #camera settings
-    camera.resolution            = (1280, 720)
+    camera.resolution            = (SCREEN_WIDTH, SCREEN_HEIGHT)
     camera.framerate             = 24
     camera.sharpness             = 0
     camera.contrast              = 0
