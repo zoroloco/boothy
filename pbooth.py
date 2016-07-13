@@ -47,7 +47,7 @@ def printPic(fileName):
     cups.setUser('pi')
     conn.printFile (default_printer, fileName, "boothy", {'fit-to-page':'True'})
     logging.info("Print job successfully created.");
-    time.sleep(10)
+    time.sleep(20)
 
 #merges the 4 images
 def convertMergeImages(fileName):
@@ -128,7 +128,7 @@ def play():
 
     convertMergeImages(fileName)
     time.sleep(1)
-    printPic(fileName)
+    #printPic(fileName)
 
     archiveImage(fileName)
     deleteImages(fileName)
