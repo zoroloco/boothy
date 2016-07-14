@@ -31,7 +31,7 @@ IMAGE_WIDTH      = 640
 IMAGE_HEIGHT     = 480
 BUTTON_PIN       = 26
 LED_PIN          = 19 #connected to external 12v.
-PHOTO_DELAY      = 2
+PHOTO_DELAY      = 8
 overlay_renderer = None
 buttonEvent      = False
 
@@ -42,18 +42,17 @@ GPIO.setup(LED_PIN, GPIO.OUT)
 
 #print the image
 def printPic(fileName):
-    addPreviewOverlay(435,335,100,"printing...")
+    addPreviewOverlay(100,200,55,"printing...")
     conn = cups.Connection()
     printers = conn.getPrinters()
     default_printer = printers.keys()[0]
     cups.setUser('pi')
     conn.printFile (default_printer, fileName, "boothy", {'fit-to-page':'True'})
     logging.info("Print job successfully created.");
-    time.sleep(20)
 
 #merges the 4 images
 def convertMergeImages(fileName):
-    addPreviewOverlay(335,335,100,"merging images...")
+    addPreviewOverlay(150,200,55,"merging images...")
     #now merge all the images
     subprocess.call(["montage",
                      IMG1,IMG2,IMG3,IMG4,
@@ -83,12 +82,12 @@ def countdownFrom(secondsStr):
     secondsNum = int(secondsStr)
     if secondsNum >= 0 :
         while secondsNum > 0 :
-            addPreviewOverlay(635,215,200,str(secondsNum))
+            addPreviewOverlay(300,100,240,str(secondsNum))
             time.sleep(1)
             secondsNum=secondsNum-1
 
 def captureImage(imageName):
-    addPreviewOverlay(535,335,100,"smile!")
+    addPreviewOverlay(150,200,100,"smile!   :)")
     #save image
     camera.capture(imageName, resize=(IMAGE_WIDTH, IMAGE_HEIGHT))
     logging.info("Image "+imageName+" captured.")
@@ -136,7 +135,9 @@ def play():
 
     convertMergeImages(fileName)
     time.sleep(1)
+
     #printPic(fileName)
+    #time.sleep(15)
 
     archiveImage(fileName)
     deleteImages(fileName)
@@ -189,7 +190,7 @@ def onButtonPress():
     logging.info("Big red button pressed!")
     play()
     #reset the initial welcome message
-    addPreviewOverlay(135,335,50,"Press red button to begin!")
+    addPreviewOverlay(20,200,55,"Press red button to begin!")
 
 def onButtonDePress():
     logging.info("Big red button de-pressed!")
@@ -204,7 +205,7 @@ with picamera.PiCamera() as camera:
         GPIO.output(LED_PIN,GPIO.LOW)
         logging.info("Starting preview")
         camera.start_preview()
-        addPreviewOverlay(135,335,50,"Press red button to begin!")
+        addPreviewOverlay(20,200,55,"Press red button to begin!")
 
         logging.info("Starting application loop")
         while True:
