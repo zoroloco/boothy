@@ -1,5 +1,5 @@
 apt-get update
-apt-get upgrade 
+apt-get upgrade
 apt-get install cups
 apt-get install python-cups
 apt-get install picamera
@@ -7,3 +7,4 @@ apt-get install defoma
 apt-get install xrdp
 apt-get install imagemagick
 apt-get install python-dev python-rpi.gpio
+apt-get install matchbox-keyboard
