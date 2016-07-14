@@ -25,8 +25,8 @@ CurrentWorkingDir= "/usr/local/src/boothy"
 IMG4             = "4logo.png"
 logDir           = "logs"
 archiveDir       = "photos"
-SCREEN_WIDTH     = 1280
-SCREEN_HEIGHT    = 720
+SCREEN_WIDTH     = 640
+SCREEN_HEIGHT    = 480
 IMAGE_WIDTH      = 640
 IMAGE_HEIGHT     = 480
 BUTTON_PIN       = 26
@@ -99,7 +99,7 @@ def addPreviewOverlay(xcoord,ycoord,fontSize,overlayText):
     draw = ImageDraw.Draw(img)
     draw.font = ImageFont.truetype(
                     "/usr/share/fonts/truetype/freefont/FreeSerif.ttf",fontSize)
-    draw.text((xcoord,ycoord), overlayText, (247, 38, 206))
+    draw.text((xcoord,ycoord), overlayText, (255, 20, 147))
 
     if not overlay_renderer:
         overlay_renderer = camera.add_overlay(img.tostring(),
@@ -109,18 +109,15 @@ def addPreviewOverlay(xcoord,ycoord,fontSize,overlayText):
     else:
         overlay_renderer.update(img.tostring())
 
-def addBorderOverlay():
-    global overlay_renderer2
-    img = Image.new("RGB", (SCREEN_WIDTH,SCREEN_HEIGHT))
-    draw = ImageDraw.Draw(img)
-    #draw.line
-
 #run a full series
 def play():
     print "Starting play sequence"
 
     fileName = time.strftime("%Y%m%d-%H%M%S")+".jpg"
     print "Created filename: "+fileName
+
+    #turn on flash
+    GPIO.output(LED_PIN,GPIO.HIGH)
 
     countdownFrom(PHOTO_DELAY)
     captureImage(IMG1)
@@ -133,6 +130,9 @@ def play():
     countdownFrom(PHOTO_DELAY)
     captureImage(IMG3)
     time.sleep(1)
+
+    #turn off flash
+    GPIO.output(LED_PIN,GPIO.LOW)
 
     convertMergeImages(fileName)
     time.sleep(1)
@@ -187,17 +187,9 @@ def initLogger(output_dir):
 
 def onButtonPress():
     logging.info("Big red button pressed!")
-
-    #turn on flash
-    GPIO.output(LED_PIN,GPIO.HIGH)
-
     play()
-
-    #turn off flash
-    GPIO.output(LED_PIN,GPIO.LOW)
-
     #reset the initial welcome message
-    addPreviewOverlay(135,335,100,"Press red button to begin!")
+    addPreviewOverlay(135,335,50,"Press red button to begin!")
 
 def onButtonDePress():
     logging.info("Big red button de-pressed!")
@@ -212,7 +204,7 @@ with picamera.PiCamera() as camera:
         GPIO.output(LED_PIN,GPIO.LOW)
         logging.info("Starting preview")
         camera.start_preview()
-        addPreviewOverlay(135,335,100,"Press red button to begin!")
+        addPreviewOverlay(135,335,50,"Press red button to begin!")
 
         logging.info("Starting application loop")
         while True:
