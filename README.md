@@ -4,12 +4,16 @@ PHOTOBOOTH
 This project is my photobooth for my wedding. For about $200, you can create a fun photobooth. Python already has a very rich API that interfaces with the camera.
 
 Required materials:
-   - Raspberry Pi 2
-   - 2.1 amp DC power adaptor
-   - Raspberry Pi Camera module (https://www.raspberrypi.org/products/camera-module/)
+   - Raspberry Pi 2 or 3
+   - 5-5.25v, 2.1-2.4 amp DC power adaptor for the Pi.
+   - Raspberry Pi Camera module 
    - 7 inch LCD screen (https://www.element14.com/community/docs/DOC-78156/l/raspberry-pi-7-touchscreen-display)
    - Canon Selphy 1200 printer
    - Big huge red button (https://www.sparkfun.com/products/9181)
+   - Stranded / Solid jumper wires
+   - A23 12v alkaline battery
+   - Soldering tools
+   - Lots and lots of duct tape!
 
 1.) Install the latest Raspbian distribution to your Raspberry Pi. This has been tested on Jessie.
 2.) Follow the install steps from INSTALL.txt file.  This will give you the necessary libraries.
