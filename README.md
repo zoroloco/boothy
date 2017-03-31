@@ -34,3 +34,9 @@ Funcionality:
     Final image taken
     Merge the 3 images to a pre-defined 4th image template
     Send new file to the printer
+
+Image of the front:
+https://drive.google.com/file/d/0B7EyXq1CH6WfVTJGTGxhYlRDTFE/view?usp=sharing
+
+Image of the inside:
+https://drive.google.com/file/d/0B7EyXq1CH6WfaVoybW5hY0thRGs/view?usp=sharing
