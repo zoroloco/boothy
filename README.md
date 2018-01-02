@@ -21,6 +21,7 @@ Required materials:
 4.) Plug in the printer with USB connection and setup your CUPs config file by enabling port 631 and add the printer by going to      yourrpihostname:631 on your browser.
     Use the following driver file: Canon SELPHY CP900 - CUPS+Gutenprint v5.2.10.  You can verify with test page print.
 5.) Google how to disable the LCD from going to sleep on your rpi.  
+6.) Connect the Big Huge Red Button (BHRB) between Ground and GPIO pin 26 of the Raspberry Pi using the **normally closed contacts**. If you use a different BHRB that only has normally open contacts, you will need to change pbooth.py to initialize the GPIO pin with a pull-down resistor rather than a pull-up resistor, and connect the button between 3.3V and pin 26 instead.
 
 Funcionality:
     Plug in the Raspberry Pi 2
