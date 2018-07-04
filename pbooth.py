@@ -101,6 +101,10 @@ def addPreviewOverlay(xcoord,ycoord,fontSize,overlayText):
     draw.text((xcoord,ycoord), overlayText, (255, 20, 147))
 
     if not overlay_renderer:
+        # Note: The call to add_overlay has changed since picamera v.1.10.
+        # If you have a new version of picamera, then please change the
+        # first parameter to:  img.tobytes()
+        #
         overlay_renderer = camera.add_overlay(img.tostring(),
                                               layer=3,
                                               size=img.size,
