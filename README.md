@@ -36,7 +36,8 @@ Funcionality:
     Send new file to the printer
 
 Image of the front:
-https://drive.google.com/file/d/0B7EyXq1CH6WfVTJGTGxhYlRDTFE/view?usp=sharing
+https://drive.google.com/file/d/0B7EyXq1CH6WfVTJGTGxhYlRDTFE/view?usp=drivesdk&resourcekey=0-B2UwrwTKijq_Vk6iMs2Xrw
 
 Image of the inside:
-https://drive.google.com/file/d/0B7EyXq1CH6WfaVoybW5hY0thRGs/view?usp=sharing
+https://drive.google.com/file/d/0B7EyXq1CH6WfaVoybW5hY0thRGs/view?usp=drivesdk&resourcekey=0-sNXYj3zFB9shJUTfyUbbNQ
+
